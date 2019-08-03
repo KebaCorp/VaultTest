@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.2-apache
 
 RUN apt-get update && apt-get install -y \
         cron \
@@ -33,7 +33,6 @@ RUN apt-get update && apt-get install -y \
         --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install \
         gd \
-        mcrypt \
         mbstring \
         mysqli \
         pdo_mysql \
