@@ -26,6 +26,13 @@ $config = [
             ],
         ],
         'db'    => $db,
+        'i18n'  => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                ],
+            ],
+        ],
     ],
     'params'              => $params,
 ];

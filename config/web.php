@@ -4,9 +4,12 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id'         => 'basic',
+    'id'         => env('APP_ID'),
+    'name'       => env('APP_NAME'),
     'basePath'   => dirname(__DIR__),
     'bootstrap'  => ['log'],
+    'language'   => env('APP_LANGUAGE'),
+    'timeZone'   => env('APP_TIME_ZONE'),
     'aliases'    => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -43,6 +46,13 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName'  => false,
             'rules'           => [],
+        ],
+        'i18n'         => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                ],
+            ],
         ],
     ],
     'params'     => $params,
