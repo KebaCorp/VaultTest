@@ -55,20 +55,19 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_DB_ROOT_PASSWORD}
 
   vault:
-    image: vault
-    container_name: vault
+    build: ${VAULT_PATH}
     ports:
       - ${VAULT_PORT}:8200
     restart: always
     volumes:
-      - ${VAULT_PATH}/volumes/logs:/vault/logs
-      - ${VAULT_PATH}/volumes/file:/vault/file
-      - ${VAULT_PATH}/volumes/config:/vault/config
+      - ${VAULT_PATH}/config:/vault/config
+      - ${VAULT_PATH}/policies:/vault/policies
+      - ${VAULT_PATH}/data:/vault/data
+      - ${VAULT_PATH}/logs:/vault/logs
     environment:
-      - VAULT_DEV_ROOT_TOKEN_ID=123123123
+      - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_DEV_ROOT_TOKEN_ID}
     cap_add:
       - IPC_LOCK
-#    entrypoint: vault server -config=/vault/config/vault.json
 
   composer:
     image: composer:1.6

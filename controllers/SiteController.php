@@ -2,14 +2,21 @@
 
 namespace app\controllers;
 
+use app\helpers\VaultHelper;
+use app\models\ContactForm;
+use app\models\LoginForm;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\httpclient\Exception;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
+/**
+ * Class SiteController
+ * @package app\controllers
+ */
 class SiteController extends Controller
 {
     /**
@@ -19,18 +26,18 @@ class SiteController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'class' => AccessControl::class,
+                'only'  => ['logout'],
                 'rules' => [
                     [
                         'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
+                        'allow'   => true,
+                        'roles'   => ['@'],
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
+            'verbs'  => [
+                'class'   => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -44,11 +51,11 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-            'error' => [
+            'error'   => [
                 'class' => 'yii\web\ErrorAction',
             ],
             'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
+                'class'           => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
@@ -62,6 +69,19 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    /**
+     * Displays homepage.
+     *
+     * @return string
+     */
+    public function actionGetSecret()
+    {
+        $result = VaultHelper::getSecret(VaultHelper::PATH_MYSQL);
+        print_r($result);
+
+        die;
     }
 
     /**
